@@ -36,6 +36,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-validation:3.0.4")
 	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4")
+	// https://mvnrepository.com/artifact/com.google.code.gson/gson
+	implementation("com.google.code.gson:gson:2.10.1")
+
 }
 
 tasks.withType<Test> {
