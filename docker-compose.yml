@@ -1,0 +1,93 @@
+version: "3.7"
+services:
+  petstoreserver:
+    image: "petstore-server:v0.1"
+    networks:
+      - backend
+    ports:
+      - 8082:8082
+    depends_on:
+#      vespasearchserver:
+#        condition: service_started
+      djangoembedder:
+        condition: service_started
+    container_name: petstoreserver
+    hostname: petstoreserver
+    environment:
+      - VESPA_HOST=host.docker.internal
+      - MYSQL_HOST=host.docker.internal
+      - EMBEDDER_HOST=djangoembedder
+      - PETSTORE_HOST=https://d77e-2406-7400-c2-a096-c2a9-70a4-c2a2-c771.ngrok-free.app
+
+  indexerservice:
+    image: "search_indexer:v0.1"
+    restart: no
+    networks:
+      - backend
+    volumes:
+      - .m2:/root/.m2
+    depends_on:
+#      vespasearchserver:
+#        condition: service_started
+      djangoembedder:
+        condition: service_started
+    container_name: indexerservice
+    hostname: indexerservice
+    environment:
+      - MYSQL_HOST=host.docker.internal
+      - EMBEDDER=djangoembedder
+      - VESPA=host.docker.internal
+
+  djangoembedder:
+    image: "docker-django-v0.0"
+    ports:
+      - "8000:8000"
+    networks:
+      - backend
+    volumes:
+      - .m2:/root/.m2
+    restart: always
+    hostname: djangoembedder
+    container_name: djangoembedder
+
+#  vespasearchserver:
+#    image: "vespa-search-server:v0.1"
+#    networks:
+#      - backend
+#    volumes:
+#      - .m2:/root/.m2
+#    depends_on:
+#      - vespaservice
+#    expose:
+#      - 8080
+#    ports:
+#      - 8080:8080
+#    container_name: vespasearchserver
+#    hostname: vespasearchserver
+
+  vespaservice:
+    image: "vespaengine/vespa"
+    networks:
+      - backend
+    expose:
+      - 8080
+      - 19071
+    ports:
+      - 8080:8080
+      - 19071:19071
+    volumes:
+      - .m2:/root/.m2
+    hostname: vespaservice
+    container_name: vespaservice
+    deploy:
+      resources:
+        limits:
+          cpus: "4"
+          memory: '20G'
+        reservations:
+          cpus: '4'
+          memory: '20G'
+networks:
+  backend:
+    driver: bridge
+    name: backend

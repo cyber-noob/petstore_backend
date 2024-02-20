@@ -1,0 +1,30 @@
+server:
+    port: 8082
+    address: ${PETSTORE_HOST:localhost}
+spring:
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: MoistMiser!@3
+        url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/petstore_schema
+        username: root
+    devtools:
+        restart:
+            additional-paths: src/main/java
+            enabled: true
+            exclude: WEB-INF/**
+    jpa:
+        hibernate:
+            naming:
+                physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        show-sql: true
+    security:
+        oauth2:
+            client:
+                registration:
+                    google:
+                        client-id: 183611527273-3flt2fr3h6vf3idpfvvuejhojcbqh06n.apps.googleusercontent.com
+                        client-secret: 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
+vespa:
+    url: http://${VESPA_HOST:localhost}:8080
+embedder:
+    url: http://${EMBEDDER_HOST:localhost}:8000/

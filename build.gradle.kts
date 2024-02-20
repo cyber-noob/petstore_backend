@@ -39,6 +39,10 @@ dependencies {
 	// https://mvnrepository.com/artifact/com.google.code.gson/gson
 	implementation("com.google.code.gson:gson:2.10.1")
 
+	//Security
+	implementation("org.springframework.security:spring-security-web")
+	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+	implementation("org.springframework.security:spring-security-config")
 }
 
 tasks.withType<Test> {

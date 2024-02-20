@@ -1,4 +1,4 @@
-package com.netrunner.petstore.requestbody;
+package com.netrunner.petstore.requestbody.cart;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class Cart {
 
-    private String[] product_id;
+    private String product_id;
 
     private String customer_id;
 
